@@ -1,7 +1,6 @@
-## Improving Performance
+## Measuring Performance
 
-### Measuring Performance
-
+### Timing Code
 ```
 from timeit import default_timer as timer
 
@@ -27,6 +26,8 @@ with open("profiler_report.txt", "w") as stream:
     ps.strip_dirs().sort_stats("time", "cumulative").print_stats()
     ps.strip_dirs().sort_stats("time", "cumulative").print_callers() # Optional
 ```
+
+## Improving Performance
 
 ### Cython
 
