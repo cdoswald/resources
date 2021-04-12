@@ -19,3 +19,9 @@ Within Anaconda Prompt:
 - Install packages in existing environment: `conda install -n myenvname [packagename][=x.xx.x]`
 
 - Delete environment: `conda remove -n myenvname -all`
+
+Within Command Prompt:
+
+- Activate environment: `conda.bat activate <myenvname>`
+
+- Deactivate environment: `conda deactivate`
