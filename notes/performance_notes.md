@@ -51,10 +51,10 @@ setup(
 )
 ```
 
-To generate an "HTML" file with the code annotation of Python interactions, pass `annotate=True` to `cythonize()` in *setup.py* file.
-Alternatively, run `cython -a <script_name>.pyx` in the command prompt. The darker yellow a line of code is, the more Python interactions occur in that line.
+To generate an annotated code (HTML) file, pass `annotate=True` to `cythonize()` in *setup.py* file. Alternatively, run `cython -a <script_name>.pyx` in the command prompt. 
+The darker yellow a line of code is, the more Python interactions occur in that line.
 
-Regular `.py` files can also be compiled with Cython using the *setup.py* file (pass to `cythonize()` function). Compiling the code could result in some increases in speed, even without Cython typing.
+Regular `.py` files can also be compiled with Cython using the *setup.py* file (pass the file name to the `cythonize()` function). 
 
 ### PyPy
 
@@ -66,4 +66,4 @@ PyPy3 is installed as an executable file and can replace "Python.exe" when runni
 4. Install other packages: `<path-to-pypy-download>\pypy3 -mpip install <package_name>`
 5. Start Python session: `<path-to-pypy-download>\pypy3` OR run script: `<path-to-pypy-download>\pypy3 <script-name>.py`
 
-([StackOverflow Explanation](https://stackoverflow.com/a/49227568) for why PyPy make actually be slower for scripts that call numpy and pandas.)
+PyPy make actually be slower for scripts that rely heavily on numpy and pandas ([StackOverflow Explanation](https://stackoverflow.com/a/49227568)).
