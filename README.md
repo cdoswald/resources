@@ -6,9 +6,9 @@ This repository contains tips, references, and code examples to help make progra
 
 - [Utility Functions](scripts/Python/utils)
 
-- [Virtual Environments](notes/virtual_envs_notes.md)
+- [Virtual Environments](notes/virtual_environments.md)
 
-- [Code Performance](notes/performance_notes.md)
+- [Code Performance](notes/code_performance.md)
 
 ### Git
 

@@ -1,4 +1,4 @@
-## Commonly Needed Git Commands
+## Frequently Used Git Commands
 
 ### Config
 
