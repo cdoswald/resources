@@ -2,8 +2,19 @@
 
 This repository contains tips, references, and code examples to help make programming easier!
 
-### Topics
+### Python
 
-#### [Virtual Environments](notes/virtual_envs_notes.md)
+- [Utility Functions](scripts/Python/utils)
 
-#### [Code Performance](notes/performance_notes.md)
+- [Virtual Environments](notes/virtual_envs_notes.md)
+
+- [Code Performance](notes/performance_notes.md)
+
+### Git
+
+- [Common Git Commands](notes/git_commands.md)
+
+### VBA
+
+- [PowerPoint Macros](scripts/VBA/PowerPoint)
+

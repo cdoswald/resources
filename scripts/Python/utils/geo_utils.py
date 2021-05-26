@@ -232,39 +232,6 @@ def determine_destination_coords(
     dest_lon_deg = rad_to_deg(dest_lon_rad)
     return (dest_lat_deg, dest_lon_deg)
 
-def determine_square_coords(
-    origin_lat_deg: float,
-    origin_lon_deg: float,
-    side_length_meters: float,
-    rotation_radians: float = 0,
-) -> List[Tuple[float, float]]:
-    """Determine the latitude and longitude of four points that form a square
-    centered around the origin point.
-    
-    Arguments
-        origin_lat_deg: float latitude of center point in decimal degrees
-        origin_lon_deg: float longitude of center point in decimal degrees
-        side_length_meters: float length of square in meters
-        rotation_radians: float radians indicating rotation of square around origin
-
-    Returns
-        coords_list: list containing four tuples of latitude-longitude pairs
-                     indicating the corners of the square around the origin
-    """
-    coords_list = []
-    dist_origin_to_corner_meters = np.sqrt(2 * (side_length_meters/2)**2)
-    angle_rad_list = [(((n*2+1)/4)*np.pi + rotation_radians) for n in np.arange(4)]
-    for angle_rad in angle_rad_list:
-        bearing_rad = convert_trig_to_compass_angle(angle_rad, radians=True)
-        latlon_list = determine_destination_coords(
-            origin_lat_deg=origin_lat_deg,
-            origin_lon_deg=origin_lon_deg,
-            distance_km=meters_to_km(dist_origin_to_corner_meters),
-            initial_bearing_deg=rad_to_deg(bearing_rad),
-        )
-        coords_list.append((latlon_list[1], latlon_list[0])) # Longitude first for simplekml
-    return coords_list
-
 def calculate_cross_track_distance(
     origin_lat_deg: float, origin_lon_deg: float,
     dest_lat_deg: float, dest_lon_deg: float,
@@ -316,3 +283,36 @@ def calculate_cross_track_distance(
         * np.sin(bearing_origin_cross_rad - bearing_origin_dest_rad)
     ) * EARTH_RADIUS_KM
     return distance_km
+
+def determine_square_coords(
+    origin_lat_deg: float,
+    origin_lon_deg: float,
+    side_length_meters: float,
+    rotation_radians: float = 0,
+) -> List[Tuple[float, float]]:
+    """Determine the latitude and longitude of four points that form a square
+    centered around the origin point.
+    
+    Arguments
+        origin_lat_deg: float latitude of center point in decimal degrees
+        origin_lon_deg: float longitude of center point in decimal degrees
+        side_length_meters: float length of square in meters
+        rotation_radians: float radians indicating rotation of square around origin
+
+    Returns
+        coords_list: list containing four tuples of latitude-longitude pairs
+                     indicating the corners of the square around the origin
+    """
+    coords_list = []
+    dist_origin_to_corner_meters = np.sqrt(2 * (side_length_meters/2)**2)
+    angle_rad_list = [(((n*2+1)/4)*np.pi + rotation_radians) for n in np.arange(4)]
+    for angle_rad in angle_rad_list:
+        bearing_rad = convert_trig_to_compass_angle(angle_rad, radians=True)
+        latlon_list = determine_destination_coords(
+            origin_lat_deg=origin_lat_deg,
+            origin_lon_deg=origin_lon_deg,
+            distance_km=meters_to_km(dist_origin_to_corner_meters),
+            initial_bearing_deg=rad_to_deg(bearing_rad),
+        )
+        coords_list.append((latlon_list[1], latlon_list[0])) # Longitude first for simplekml
+    return coords_list
