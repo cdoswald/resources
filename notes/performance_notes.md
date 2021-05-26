@@ -66,4 +66,4 @@ PyPy3 is installed as an executable file and can replace "Python.exe" when runni
 4. Install other packages: `<path-to-pypy-download>\pypy3 -mpip install <package_name>`
 5. Start Python session: `<path-to-pypy-download>\pypy3` OR run script: `<path-to-pypy-download>\pypy3 <script-name>.py`
 
-PyPy make actually be slower for scripts that rely heavily on numpy and pandas ([StackOverflow Explanation](https://stackoverflow.com/a/49227568)).
+([Stack Overflow Explanation](https://stackoverflow.com/a/49227568) for why PyPy may actually be slower for scripts that call numpy and pandas.)
