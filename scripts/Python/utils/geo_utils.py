@@ -1,7 +1,7 @@
 """Utility functions for geodetic calculations."""
 
 # Import packages
-from typing import List, Tuple
+from typing import List, Tuple, Union
 import numpy as np
 
 # Define constants
@@ -27,6 +27,29 @@ def deg_to_rad(degrees: float) -> float:
 def rad_to_deg(radians: float) -> float:
     """Converts angle in radians to degrees."""
     return radians * 180 / np.pi
+
+def numeric_DMS_to_DD_coords(
+    degrees: Union[int, float],
+    minutes: Union[int, float],
+    seconds: Union[int, float],
+) -> float:
+    """Convert numeric Degree/Minute/Second (DMS) coordinates
+    to decimal degrees (DD)."""
+    return (degrees + minutes/60 + seconds/3600)
+    
+def str_DMS_to_DD_coords(DMS_str: str) -> Tuple[float, float]:
+    """Parse Degree/Minute/Second (DMS) coordinate string and convert to 
+    decimal degrees (DD)."""
+#    import pdb; pdb.set_trace()
+    lat_deg = int(DMS_str[:DMS_str.find('°')])
+    lat_min = int(DMS_str[DMS_str.find('°')+1:DMS_str.find('\'')])
+    lat_sec = float(DMS_str[DMS_str.find('\'')+1:DMS_str.find('"')])
+    lon_deg = int(DMS_str[DMS_str.rfind(' ')+1:DMS_str.rfind('°')])
+    lon_min = int(DMS_str[DMS_str.rfind('°')+1:DMS_str.rfind('\'')])
+    lon_sec = float(DMS_str[DMS_str.rfind('\'')+1:DMS_str.rfind('"')])
+    lat_decimal = round(numeric_DMS_to_DD_coords(lat_deg, lat_min, lat_sec), 5)
+    lon_decimal = round(numeric_DMS_to_DD_coords(lon_deg, lon_min, lon_sec), 5)
+    return (lat_decimal, lon_decimal)
 
 def convert_trig_to_compass_angle(trig_angle: float, radians: bool = True):
     """Converts a trigonometric angle (measured counterclockwise from East) 
