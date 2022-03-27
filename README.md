@@ -4,13 +4,7 @@ Notes, code examples, and other resources to help make programming easier (and l
 
 ### Python
 
-- [Utility Functions](scripts/Python/utils)
-
-    - [Geodetic Utility Functions](scripts/Python/utils/geo_utils.py)
-
-    - [KML Utility Functions](scripts/Python/utils/kml_utils.py)
-
-    - [General Utility Functions](scipts/Python/utils/utils.py)
+- [Utility Functions](scripts/Python/utils) ([General](scripts/Python/utils/utils.py), [Geodetic](scripts/Python/utils/geo_utils.py), [KML](scripts/Python/utils/kml_utils.py))
 
 - [Virtual Environments](notes/virtual_environments.md)
 
