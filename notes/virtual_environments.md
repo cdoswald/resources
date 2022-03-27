@@ -6,25 +6,45 @@ Within Anaconda Prompt:
 
 - Update Conda: `conda update conda`
 
-- List existing virtual environments: `conda info --envs`
+- List existing virtual environments: `conda info --envs` or `conda env list`
 
-- Create new virtual environment: `conda create -n myenvname python=x.x anaconda`
+- List packages in virtual environment: `conda list`
 
-- Clone existing environment: `conda create -n myclone --clone myenvname`
+- Create new virtual environment: `conda create -n [env_name]`
 
-- Activate environment: `conda activate myenvname`
+- Create new virtual environment with Python version/Anaconda distribution: `conda create -n [env_name] python=[x.x] anaconda`
+
+- Clone existing environment: `conda create -n myclone --clone [env_name]`
+
+- Activate environment: `conda activate [env_name]`
 
 - Deactivate environment: `conda deactivate`
 
-- Install packages in existing environment: `conda install -n myenvname [packagename][=x.xx.x]`
+- Install packages in existing environment: `conda install -n [env_name] [packagename]=[x.xx.x]`
 
-- Delete environment: `conda remove -n myenvname -all`
+- Install packages (and dependencies) from a particular channel: `conda install -c [channel-name] [packagename]`
+
+- Show Conda channels: `conda config --show channels`
+
+- Add Conda channel/move existing channel to highest priority: `conda config --add channels [channel-name]`
+
+- Add Conda channel to bottom of priority list: `conda config --append channels [channel-name]`
+
+- Set strict priority so only first channel is used: `conda config --set channel_priority strict`
+
+- Show Conda config: `conda config --show`
+
+- Delete environment: `conda remove -n [env_name] -all`
 
 Within Command Prompt:
 
-- Activate environment: `conda.bat activate <myenvname>`
+- Activate environment: `conda.bat activate [env_name]`
 
 - Deactivate environment: `conda deactivate`
+
+Pip and Conda
+
+- [Best Practices](https://www.anaconda.com/blog/using-pip-in-a-conda-environment)
 
 ### Spyder
 

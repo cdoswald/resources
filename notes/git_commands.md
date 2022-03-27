@@ -37,3 +37,13 @@ Commit with message: `git commit -m "<message>"`
 ### Rename
 
 Rename file: `git mv <old_file_name> <new_file_name>`
+
+### Remote
+
+Check remote: `git remote -v`
+
+Remove remote: `git remote remove <name_of_remote>`
+
+Set remote: `git remote add origin <url_to_remote>`
+
+Set upstream branch: `git push --set-upstream <remote> <branch>`

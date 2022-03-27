@@ -1,4 +1,4 @@
-"""Utility functions."""
+"""Python utility functions."""
 
 # Import packages
 from collections import OrderedDict
@@ -6,7 +6,7 @@ from datetime import datetime
 import json
 import os
 import sys
-from typing import Dict, List, Union, Optional
+from typing import Dict, List, Union, Optional, Tuple
 
 import imageio
 import numpy as np
@@ -19,33 +19,57 @@ def load_json(filepath:str) -> Union[List, Dict]:
         data = json.load(file)
     return data
 
+def read_config(path: str) -> Tuple[Dict, Dict, Dict]:
+    """Import JSON config file and return dirs, files, and params."""
+    with open(path, 'r') as file_io:
+        config = json.load(file_io)
+    return config['dirs'], config['file_names'], config['params']
+
 def create_dirs(dirs: Union[str, List[str]]) -> None:
-    """Create single/multiple directories."""
+    """Create single or multiple directories."""
     dirs = dirs if isinstance(dirs, list) else [dirs]
     for path in dirs:
         os.makedirs(path, exist_ok=True)
 
-def increment_folder_name(folder: str) -> str:
+def increment_folder_name(folder_path: str) -> str:
     """If folder currently exists, increment with version number."""
-    if os.path.isdir(folder):
-        version = 2
-        versioned_folder = f'{folder} (v{version})'
-        while os.path.isdir(versioned_folder):
-            version += 1
-            versioned_folder =  f'{folder} (v{version})'
-        return versioned_folder
+    if not os.path.isdir(folder_path):
+        return folder_path
     else:
-        return folder
+        version = 2
+        while os.path.isdir(
+            (versioned_folder := f'{folder_path} (v{version})')
+        ):
+            version += 1
+        return versioned_folder
+
+def import_config(path: str) -> Tuple[Dict, Dict, Dict]:
+    """Import config file and return tuple of dirs, files, and params."""
+    with open(path, 'r') as file_io:
+        config = json.load(file_io)
+    return config['dirs'], config['file_names'], config['params']
 
 def list_files_within_year_range(
     data_dir: str,
     file_prefix: str,
     start_year: int,
     end_year: int,
+    freq: List[str] = 'm',
+    freq_start_month: int = 1,
 ) -> List[str]:
-    """Create list of file names within start and end year."""
+    """Create list of file names within start and end year for given frequency.
+       Freq options: {[m]onth, [q]uarter, [y]ear}
+    """
+    freq_step = {'m':1, 'q':3, 'y':12}
+    if freq not in freq_step.keys():
+        raise ValueError('"Freq" argument must be one of {sorted(freq_step.keys())}')
     year_2dgt_list = [str(x)[2:] for x in np.arange(start_year, end_year + 1)]
-    files_prefix_list = tuple(f'{file_prefix}{yr}' for yr in year_2dgt_list)
+    month_2dgt_list = [
+        str(x).zfill(2) for x in np.arange(freq_start_month, 13, freq_step[freq])
+    ]
+    files_prefix_list = tuple(
+        f'{file_prefix}{yr}{mth}' for yr in year_2dgt_list for mth in month_2dgt_list
+    )
     return [x for x in os.listdir(data_dir) if x.startswith(files_prefix_list)]
 
 def import_and_concat_csv_data(
@@ -71,11 +95,13 @@ def import_and_concat_csv_data(
 
 ## Logging
 def create_log(path: str) -> None:
+    """Create log file and record datetime."""
     sys.stdout = open(path, 'w')
-    last_run_date = datetime.now().strftime('%H:%M:%S on %d %b %Y')
-    print(f'Last run at {last_run_date}. \n')
+    run_time = datetime.now().strftime('%H:%M:%S on %d %b %Y')
+    print(f'Log created at {run_time}. \n')
 
 def format_current_time() -> str:
+    """Format current time as HH:MM:SS"""
     return datetime.now().strftime('%H:%M:%S')
 
 ## Memory management
@@ -103,7 +129,8 @@ def convert_categorical_cols(df: pd.DataFrame) -> pd.DataFrame:
 
 ## Data cleaning
 def summarize_dataset(df: pd.DataFrame) -> pd.DataFrame:
-    """ """
+    """Summarize datetypes, missingness, and unique/duplicated values for each
+    column in dataframe."""
     results = OrderedDict()
     for col in sorted(df.columns):
         is_null_bool = df[col].isnull()
@@ -119,21 +146,48 @@ def summarize_dataset(df: pd.DataFrame) -> pd.DataFrame:
         }
     return pd.DataFrame(results)
 
-def convert_datetime_cols(df: pd.DataFrame, datetime_cols: List[str]) -> pd.DataFrame: 
-    """Convert datetime columns to pandas datetime dtype."""
-    for col in datetime_cols:
-        df[col] = pd.to_datetime(df[col]).replace(pd.to_datetime('1910-01-01'), pd.NaT)
-        print(f'Column "{col}" dtype: {df[col].dtype}')
-    return df
-
-#TODO: benchmark this function against pandas dropna
 def drop_null_columns(df: pd.DataFrame) -> pd.DataFrame:
-    """Drop columns with entirely null values (in memory efficient way)."""
+    """Drop columns with entirely null values in memory efficient way."""
     preserve_cols_list = []
     for col in df.columns:
         if not df[col].isnull().all():
             preserve_cols_list.append(col)
     return df.loc[:, preserve_cols_list]
+
+def convert_datetime_cols(
+    df: pd.DataFrame,
+    dt_suffixes: List[str] = ['_date', '_DATE', '_dt', '_DT'],
+) -> pd.DataFrame:
+    """Convert columns with date suffix to pandas datetime dtype."""
+    for col in df.columns:
+        if col.endswith(tuple(dt_suffixes)):
+            df[col] = df[col].astype('<M8[ns]').replace(
+                pd.to_datetime('1910-01-01'), pd.NaT
+            )
+            print(f'Column "{col}" converted to {df[col].dtype}')
+    return df
+
+def forward_fill_vars(
+    data: pd.DataFrame,
+    fill_vars: List[str],
+    sort_vars: Optional[List[str]] = None,
+    groupby_vars: Optional[List[str]] = None,
+) -> pd.DataFrame:
+    """Forward fill all variables in fill_vars list, sorting first by variables
+    in sort_vars list and grouping by variables in groupby_vars list."""
+    start_num_cols = len(data.columns)
+    if sort_vars:
+        data = data.sort_values(sort_vars).reset_index(drop=True)
+    for fill_var in fill_vars:
+        if fill_var not in data.columns:
+            print(f'Variable "{fill_var}" not found in data.')
+        else:
+            if groupby_vars:
+                data[fill_var] = data.groupby(groupby_vars)[fill_var].ffill()
+            else:
+                data[fill_var] = data[fill_var].ffill()
+    assert len(data.columns) == start_num_cols
+    return data
 
 ## Data merging
 def prepare_for_join(df: pd.DataFrame, merge_cols: List[str]) -> pd.DataFrame:
@@ -146,11 +200,9 @@ def prepare_for_join(df: pd.DataFrame, merge_cols: List[str]) -> pd.DataFrame:
         - Sorting values on merge columns
         - Setting index on merge columns
     """
-    df = drop_null_columns(df)
-    df = convert_datetime_cols(df, datetime_cols=[]) #TODO
-    df = convert_categorical_cols(df)
-    df = downcast_numeric_cols(df)
-    df = df.drop_duplicates(merge_cols).sort_values(merge_cols).set_index(merge_cols)
+    df = convert_datetime_cols(drop_null_columns(df))
+    df = downcast_numeric_cols(convert_categorical_cols(df))
+    df = df.drop_duplicates(subset=merge_cols).sort_values(merge_cols).set_index(merge_cols)
     return df
     
 class SmartMerger():
@@ -221,7 +273,7 @@ class SmartMerger():
 
     def handle_duplicates(self):
         """Check share of duplicates in merge column values and drop if drop duplicates
-        parameter set to TRUE."""
+        parameter set to True."""
         # Check duplicate share
         df1_dup_share = self.df1.duplicated(subset=self.merge_cols, keep=False).mean()
         df2_dup_share = self.df2.duplicated(subset=self.merge_cols, keep=False).mean()
@@ -276,8 +328,7 @@ class SmartMerger():
 ## Visualization
 def create_gif(
     image_dir: str,
-    output_file_dir: str,
-    output_file_name: str,
+    output_file_path: str,
     image_prefix: str = '',
     image_suffix: str = '',
     image_duration_sec: float = 0.5,
@@ -290,7 +341,7 @@ def create_gif(
             images_list.append(imageio.imread(os.path.join(image_dir, file)))
     # Write images to .gif
     imageio.mimwrite(
-        uri=os.path.join(output_file_dir, output_file_name),
+        uri=os.path.join(output_file_path),
         ims=images_list,
         duration=image_duration_sec,
     )        
