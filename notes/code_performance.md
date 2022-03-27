@@ -20,7 +20,7 @@ import pstats
 
 import local_module
 
-cProfile.runctz("local_module.function(args)", globals(), locals(), "profile.prof")
+cProfile.runctx("local_module.function(args)", globals(), locals(), "profile.prof")
 with open("profiler_report.txt", "w") as stream:
     ps = pstats.Stats("profile.prof", stream=stream)
     ps.strip_dirs().sort_stats("time", "cumulative").print_stats()
