@@ -1,6 +1,6 @@
 ## Programming Resources
 
-Notes, code examples, and other resources to help make programming easier (and life more enjoyable)!
+Notes, code examples, utility functions, and other resources to help make programming easier (and life more enjoyable)!
 
 ### Python
 
