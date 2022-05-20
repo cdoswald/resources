@@ -1,5 +1,8 @@
-"""Utility functions for geodetic calculations."""
-
+"""
+Python utility functions for geodetic calculations.
+Author: Chris Oswald
+Last modified: 2022-04-21
+"""
 # Import packages
 from typing import List, Tuple, Union
 import numpy as np
