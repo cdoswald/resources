@@ -1,7 +1,6 @@
 """
 Python utility functions.
 Author: Chris Oswald
-Last modified: 2022-04-21
 """
 # Import packages
 from collections import OrderedDict
