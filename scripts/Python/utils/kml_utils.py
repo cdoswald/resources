@@ -1,7 +1,6 @@
 """
 Python utility functions for creating Keyhole Markup Language (KML) files.
 Author: Chris Oswald
-Last modified: 2022-04-21
 """
 #TODO: add stylemaps to all style functions
 
