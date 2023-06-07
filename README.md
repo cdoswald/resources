@@ -14,6 +14,14 @@ Notes, code examples, utility functions, and other resources to help make progra
 
 - [Common Git Commands](notes/git_commands.md)
 
+### Visual Studio Code
+
+- [Custom Configuration](notes/VScode_config.md)
+
+### Windows Subsystem for Linux (WSL)
+
+- [Common WSL Commands](notes/WSL_commands.md)
+
 ### VBA
 
 - [PowerPoint Macros](scripts/VBA/PowerPoint)
