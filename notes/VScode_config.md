@@ -1,11 +1,17 @@
 ## Custom Configuration Commands for Visual Studio Code
 
-### Running selected code
+### Keyboard Shortcuts
 
-Create default keybindings for "Run Selected Text in Active Terminal":
+- Run Selected Text in Active Terminal: `workbench.action.terminal.runSelectedText`
 
-- Open File > Preferences > Keyboard Shortcuts
+### Settings.json
 
-- Search for workbench.action.terminal.runSelectedText in keybindings
+- Format on save: `"editor.formatOnSaveMode": "file", "editor.formatOnSave": true`
 
-- Create custom keybindings and press Enter to save
+- Set default formatter: `"[python]": {"editor.defaultFormatter": "ms-python.black-formatter"}`
+
+- Organize imports: `"editor.codeActionsOnSave": {"source.organizeImports": true}`
+
+- Set path to default Python interpreter: `"python.defaultInterpreterPath": "path/to/anaconda3/envs"`
+
+- Enable interactive execution in Jupyter: `"jupyter.interactiveWindow.textEditor.executeSelection": true`
