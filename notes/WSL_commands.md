@@ -20,4 +20,4 @@
 ### VSCode Setup
 
 - Set Black as autoformatter: `"python.formatting.provider": "black", "python.formatting.blackPath": "/home/<user>/bin/black"`
-- 
+
