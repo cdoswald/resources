@@ -16,3 +16,8 @@
   - Open VSCode from WSL2 shell
   - Open ipykernel interactive terminal before opening an integrated terminal
   - [[Source](https://github.com/microsoft/vscode-jupyter/issues/1290#issuecomment-738614258)]
+
+### VSCode Setup
+
+- Set Black as autoformatter: `"python.formatting.provider": "black", "python.formatting.blackPath": "/home/<user>/bin/black"`
+- 
