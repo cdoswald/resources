@@ -4,9 +4,9 @@ Notes, code examples, utility functions, and other resources to help make progra
 
 ### Python
 
-- [Machine Learning Model Templates] (code/Python/ml_models)
+- [Machine Learning Model Templates](code/Python/ml_models)
 
-- [Reinforcement Learning Environment Templates] (code/Python/rl_envs)
+- [Reinforcement Learning Environment Templates](code/Python/rl_envs)
 
 - [Utility Functions](code/Python/utils) ([General](code/Python/utils/utils.py), [Geodetic](code/Python/utils/geo_utils.py), [KML](code/Python/utils/kml_utils.py))
 
