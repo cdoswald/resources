@@ -1,10 +1,14 @@
 ## Programming Resources
 
-Notes, code examples, utility functions, and other resources to help make programming easier (and life more enjoyable)!
+Notes, code examples, utility functions, and other resources to help make programming easier (and life more enjoyable!)
 
 ### Python
 
-- [Utility Functions](scripts/Python/utils) ([General](scripts/Python/utils/utils.py), [Geodetic](scripts/Python/utils/geo_utils.py), [KML](scripts/Python/utils/kml_utils.py))
+- [Machine Learning Model Templates] (code/Python/ml_models)
+
+- [Reinforcement Learning Environment Templates] (code/Python/rl_envs)
+
+- [Utility Functions](code/Python/utils) ([General](code/Python/utils/utils.py), [Geodetic](code/Python/utils/geo_utils.py), [KML](code/Python/utils/kml_utils.py))
 
 - [Virtual Environments](notes/virtual_environments.md)
 
@@ -24,5 +28,5 @@ Notes, code examples, utility functions, and other resources to help make progra
 
 ### VBA
 
-- [PowerPoint Macros](scripts/VBA/PowerPoint)
+- [PowerPoint Macros](code/VBA/PowerPoint)
 
