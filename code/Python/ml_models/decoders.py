@@ -74,16 +74,20 @@ class UNetDecoder(nn.Module):
 
     def __init__(self, n_input_channels: int, n_final_output_channels: int):
         super().__init__()
-        self.decode_1 = UNetDecoderBlock(n_input_channels, 512)
-        self.decode_2 = UNetDecoderBlock(512, 256)
-        self.decode_3 = UNetDecoderBlock(256, 128)
-        self.decode_4 = UNetDecoderBlock(128, 64)
+        self.decode_1 = UNetDecoderBlock(n_input_channels, 2048)
+        self.decode_2 = UNetDecoderBlock(2048, 1024)
+        self.decode_3 = UNetDecoderBlock(1024, 512)
+        self.decode_4 = UNetDecoderBlock(512, 256)
+        self.decode_5 = UNetDecoderBlock(256, 128)
+        self.decode_6 = UNetDecoderBlock(128, 64)
         self.decode_last = nn.Conv2d(64, n_final_output_channels, kernel_size=1) #1x1 Conv2d
 
     def forward(self, x: torch.Tensor, skips: List[torch.Tensor]):
-        assert len(skips) == 4
+        assert len(skips) == 6
         x = self.decode_1(x, skips[-1])
         x = self.decode_2(x, skips[-2])
         x = self.decode_3(x, skips[-3])
         x = self.decode_4(x, skips[-4])
+        x = self.decode_5(x, skips[-5])
+        x = self.decode_6(x, skips[-6])
         return self.decode_last(x)

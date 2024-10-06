@@ -37,7 +37,7 @@ class CNNEncoder(nn.Module):
     def __init__(
         self,
         n_input_channels: int,
-        hidden_channels: List[int] = [64, 64, 256, 256, 512, 1024],
+        hidden_channels: List[int] = [64, 64, 128, 256, 512, 1024],
         conv2d_kernel: int = 3,
         conv2d_padding: int = 1,
         maxpool2d_kernel: int = 2,
@@ -97,24 +97,30 @@ class UNetEncoder(nn.Module):
         self.encode_2 = UNetEncoderBlock(64, 128)
         self.encode_3 = UNetEncoderBlock(128, 256)
         self.encode_4 = UNetEncoderBlock(256, 512)
+        self.encode_5 = UNetEncoderBlock(512, 1024)
+        self.encode_6 = UNetEncoderBlock(1024, 2048)
         self.encode_last = nn.Sequential(
             nn.MaxPool2d(kernel_size=2, stride=2),
-            nn.Conv2d(512, 1024, kernel_size=3, padding=1),
+            nn.Conv2d(2048, 4096, kernel_size=3, padding=1),
             nn.ReLU(),
-            nn.Conv2d(1024, 1024, kernel_size=3, padding=1),
+            nn.Conv2d(4096, 4096, kernel_size=3, padding=1),
             nn.ReLU(),
         )
 
-    def forward(self, obs: torch.tensor, return_skips: bool = True):
+    def forward(self, obs: torch.tensor, return_skips: bool = False):
         if return_skips:
             x1 = self.encode_1(obs)
             x2 = self.encode_2(x1, maxpool_first=True)
             x3 = self.encode_3(x2, maxpool_first=True)
             x4 = self.encode_4(x3, maxpool_first=True)
-            return self.encode_last(x4), [x1, x2, x3, x4]
+            x5 = self.encode_5(x4, maxpool_first=True)
+            x6 = self.encode_6(x5, maxpool_first=True)
+            return self.encode_last(x6), [x1, x2, x3, x4, x5, x6]
         else:
             x = self.encode_1(obs)
             x = self.encode_2(x, maxpool_first=True)
             x = self.encode_3(x, maxpool_first=True)
             x = self.encode_4(x, maxpool_first=True)
+            x = self.encode_5(x, maxpool_first=True)
+            x = self.encode_6(x, maxpool_first=True)
             return self.encode_last(x)
