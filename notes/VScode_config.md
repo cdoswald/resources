@@ -1,39 +1,17 @@
 ## Visual Studio Code Configuration
 
-- Run Selected Text in Active Terminal: 
-`Open File > Preferences > Keyboard Shortcuts > workbench.action.terminal.runSelectedText`
+### Keyboard Shortcuts
 
-- Open User Settings JSON File:
-`Ctrl + Shift + P > Preferences: Open User Settings (JSON)'
+- Run Selected Text in Active Terminal: `workbench.action.terminal.runSelectedText`
 
-- Terminal Integrated Profile (Windows):
-```
-	"terminal.integrated.profiles.windows": {
-		"<terminal_name>": {
-			"source": "<source_name>",
-			"path": "<path_to_exe_file_if_no_source_name>",
-			"args": [
-				"<arg1>",
-				"<arg2>"
-			],
-			"icon": "<icon_name>""
-		}
-	}
-```
+### Settings.json
 
-- Anaconda Terminal (via PowerShell):
-```
-	"terminal.integrated.profiles.windows": {
-        "Anaconda Prompt (PS)": {
-            "path":<path_to_powershell_exe>,
-            "args": [
-                "powershell",
-                "-NoExit",
-                "-ExecutionPolicy <policy>",
-                "-Scope CurrentUser",
-                "-NoProfile",
-                "-File ~anaconda3\\shell\\condabin\\conda-hook.ps1"
-            ]
-        }
-	}
-```
+- Format on save: `"editor.formatOnSaveMode": "file", "editor.formatOnSave": true`
+
+- Set default formatter: `"[python]": {"editor.defaultFormatter": "ms-python.black-formatter"}`
+
+- Organize imports: `"editor.codeActionsOnSave": {"source.organizeImports": true}`
+
+- Set path to default Python interpreter: `"python.defaultInterpreterPath": "path/to/anaconda3/envs"`
+
+- Enable interactive execution in Jupyter: `"jupyter.interactiveWindow.textEditor.executeSelection": true`

@@ -36,6 +36,12 @@ Within Anaconda Prompt:
 
 - Delete environment: `conda remove -n [env_name] -all`
 
+- Export environment as YAML: `conda env export > environment.yml`
+
+- Create environment from YAML: `conda env create -f environment.yml`
+
+    - First line of YAML file determines name of new environment
+
 Within Command Prompt:
 
 - Activate environment: `conda.bat activate [env_name]`

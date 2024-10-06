@@ -1,32 +1,29 @@
-## Windows Subsystem for Linux (WSL) Commands
+## Windows Subsystem for Linux (WSL2) Commands/Issues
 
 ### Opening Files
 
-Open Visual Studio Code: `code .`
+- Open Visual Studio Code: `code .`
 
-Open Windows file explorer: `explorer.exe .`
+- Open Windows file explorer: `explorer.exe .`
 
-### Opening Remote Folder
+- Mount Windows filesystem: `/mnt/c/Users/<username>/<path>`
 
-To edit files located in Windows filesystem:
+### Missing Packages
 
-1. Open WSL terminal from Powershell using `wsl`
+- If Jupyter claims ipykernel not installed (even though `conda list ipykernel` shows valid install):
 
-2. Mount Windows filesystem: `/mnt/c/Users/<username>/<path>`
+  - Close all integrated terminals
+  - Exit vscode
+  - Restart WSL2 shell (*not* from Anaconda prompt)
+  - Open VSCode from WSL2 shell
+  - Open ipykernel interactive terminal before opening an integrated terminal
+  - [[Source](https://github.com/microsoft/vscode-jupyter/issues/1290#issuecomment-738614258)]
 
-3. Launch VSCode from remote folder: `code .`
+### VSCode Setup
 
-Or from Windows (Anaconda) command prompt: `code --remote wsl+Ubuntu <path in WSL>`
-
-### Cloning GitHub Repository Using PAT
-
-1. Generate PAT via GitHub settings > developer settings
-
-2. Run the following in PowerShell/Bash: `git clone https://<tokenhere>@github.com/<user>/<repo>.git`
+- Set Black as autoformatter: `"python.formatting.provider": "black", "python.formatting.blackPath": "/home/<user>/bin/black"`
 
 ### System Time
 
 1. Sync: `sudo hwclock -s`
-
-### Setting Up Consistent Line Endings for Git
 
