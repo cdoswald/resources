@@ -4,7 +4,7 @@ Notes, code examples, utility functions, and other resources to help make progra
 
 ### Python
 
-- [Machine Learning Model Templates](code/Python/ml_models)
+- [Machine Learning Model and Dataset Templates](code/Python/ml_models)
 
 - [Reinforcement Learning Environment Templates](code/Python/rl_envs)
 
