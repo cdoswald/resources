@@ -12,7 +12,7 @@ DEVICE = get_device()
 
 
 class MLPDecoder(nn.Module):
-    """Fully-connected multi-layer perception (MLP) decoder."""
+    """Fully-connected multilayer perceptron (MLP) decoder."""
 
     def __init__(
         self,
